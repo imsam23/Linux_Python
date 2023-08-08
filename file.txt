@@ -1,0 +1,13 @@
+rules 1
+count 5
+[organization_configuration:2]
+ConfigureIpSurrogateSamlReauth="3600"
+ReservedIpData="[]"
+[rulesets:2]
+ruleset_id=0 bundle_id=7142174 ruleset_type="unknown" umbrella.file_type_control.enabled=1 umbrella.file_type_control.block_upload=0
+ruleset_id=54441 bundle_id=13443734 ruleset_type="unknown"
+[rules:2]
+ruleset_id=54441 rule_id=428324 priority=3 services=["dns", "firewall", "latitude", "proxy"]
+( ( umbrella.destination.category_ids INTERSECT [25] ) AND ( umbrella.source.identity_ids INTERSECT [1092183982,1094199060] ) AND umbrella.bundle_id = 8115010 ): (block)'
+ruleset_id=54441 rule_id=428324 priority=1 services=["dns", "firewall", "latitude", "proxy"]
+( ( umbrella.destination.category_ids INTERSECT [17,193,194,22,24,28,36,51,56,85]  AND umbrella.destination.category_ids INTERSECT [17,193,194,22,24,28,36,51,56,85] ) AND umbrella.bundle_id = 13443734 AND umbrella.source.all_policy_identities = True ): (block)
