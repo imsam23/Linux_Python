@@ -9,7 +9,7 @@ server_socket.listen()
 
 try:
     connection, client_address = server_socket.accept()
-    print(f'I got a connection from {client_address}!')
+    print(f'connection from {client_address}!')
 
     buffer = b''
 

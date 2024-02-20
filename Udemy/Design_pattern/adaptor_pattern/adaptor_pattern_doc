@@ -1,0 +1,8 @@
+Adapter pattern:
+    a fundamental structural design pattern, bridges the gap between incompatible interfaces,
+    enabling objects with different interfaces to collaborate seamlessly.
+
+Key Components:
+    Adaptee: An existing class with an incompatible interface.
+    Adapter: A class that wraps the Adaptee and provides a compatible interface.
+    Client: The class that relies on the Adaptee but needs to use it through the Adapter's compatible interface.

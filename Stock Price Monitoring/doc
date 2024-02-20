@@ -1,0 +1,143 @@
+                  +-------------------+
+                  |   Stock Price     |
+                  |     Service       |
+                  +---------+---------+
+                            |
+                            | Fetches Real-Time
+                            | Stock Prices
+                            |
+                            v
+                  +-------------------+
+                  | WebSocket Server  |
+                  +---------+---------+
+                            |
+      +---------------------+---------------------+
+      |                     |                     |
+      |                     |                     |
++-----+-----+       +-------+-------+    +--------+--------+
+|           |       |               |    |                 |
+|  Client   |       | User Management|    | External Stock  |
+|           |       |     Service   |    |   Price API     |
++-----------+       +---------------+    +-----------------+
+
+System Components:
+WebSocket Server:
+	Responsible for handling WebSocket connections from clients.
+	Manages subscriptions to stock price updates and user notifications.
+	Receives requests from clients, fetches stock prices, and sends real-time updates to subscribed clients.
+
+Stock Price Service:
+	Fetches real-time stock prices from an external API (e.g., Alpha Vantage).
+	Provides an interface for the WebSocket server to retrieve updated stock prices.
+
+User Management Service:
+	Manages user accounts, preferences, and subscriptions.
+	Provides an interface for the WebSocket server to handle user subscriptions and notifications.
+Database:
+	Stores user information, including subscriptions and notification preferences.
+	Optionally stores historical stock price data for analytics or auditing purposes.
+
+=====System Workflow======
+
+Client Connection:
+    Clients establish WebSocket connections with the WebSocket server.
+    Upon connection, clients authenticate and provide user credentials (if required).
+
+User Subscription:
+    Clients send subscription requests to the WebSocket server, specifying the stock symbols they are interested in.
+    The WebSocket server updates the user's subscription status in the database.
+
+Real-time Updates:
+    The WebSocket server periodically fetches real-time stock prices from the Stock Price Service.
+    Upon receiving updated prices, the WebSocket server broadcasts the updates to all subscribed clients.
+
+User Notifications:
+    Users can configure price notifications for specific stock symbols.
+    The WebSocket server monitors price movements and triggers notifications based on user preferences.
+    Notifications are sent to subscribed clients in real-time.
+
+======Technologies=====
+WebSocket Server Implementation:
+    Use WebSocket libraries or frameworks such as Socket.IO (Node.js), Flask-SocketIO (Python), or Spring WebSocket (Java).
+
+Stock Price Service:
+    Use HTTP clients or libraries to fetch real-time stock prices from external APIs.
+
+User Management Service:
+    Implement user management logic using a web framework like Flask (Python), Express.js (Node.js), or Spring Boot (Java).
+
+Database:
+    Choose a suitable database such as PostgreSQL, MySQL, MongoDB, or Redis based on your requirements for data persistence, scalability, and performance.
+
+Scalability Considerations:
+    Load Balancing: Deploy multiple instances of the WebSocket server behind a load balancer to distribute incoming WebSocket connections.
+    Horizontal Scaling: Use a distributed database or sharding techniques to scale the storage layer horizontally as the user base and data volume grow.
+
+Caching: Implement caching mechanisms to reduce the load on the database for frequently accessed data such as stock prices and user subscriptions.
+======Security Considerations======
+Authentication and Authorization: Implement authentication mechanisms to verify client identities and authorize access to subscribed content.
+Data Encryption: Use TLS/SSL encryption to secure WebSocket connections and protect sensitive information during transmission.
+Input Validation: Validate incoming requests to prevent injection attacks and ensure data integrity.
+Monitoring and Logging:
+Monitoring: Monitor server health, WebSocket connections, and system performance metrics using monitoring tools and logging frameworks.
+Logging: Log server events, error messages, and user interactions to facilitate troubleshooting, auditing, and performance optimization.
+By implementing this system design, you can build a scalable and real-time stock price notification system using WebSocket server implementation. Ensure to adapt the design to your specific requirements, considering factors like performance, scalability, security, and maintainability.
+
+==========================Data Modelling=================
+
+Users Table:
+CREATE TABLE users (
+    user_id SERIAL PRIMARY KEY,
+    username VARCHAR(50) UNIQUE NOT NULL,
+    email VARCHAR(100) UNIQUE NOT NULL,
+    password_hash VARCHAR(100) NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+===========
+Sessions Table:
+This table is used to manage user sessions. Each session represents a user's authenticated state.
+It typically includes fields for session tokens, user IDs, and expiration timestamps.
+
+With this schema:
+When a user registers, their information is stored in the users table.
+When a user logs in, a session token is generated, stored in the sessions table, and returned to the client.
+When a user logs out, the session associated with their token is removed from the sessions table.
+
+CREATE TABLE sessions (
+    session_id SERIAL PRIMARY KEY,
+    user_id INTEGER REFERENCES users(user_id),
+    session_token VARCHAR(100) UNIQUE NOT NULL,
+    expiration_time TIMESTAMP NOT NULL
+);
+===========
+Stocks Table:
+CREATE TABLE stocks (
+    stock_id SERIAL PRIMARY KEY,
+    symbol VARCHAR(20) UNIQUE NOT NULL,
+    company_name VARCHAR(255) NOT NULL,
+    current_price DECIMAL(12, 2),
+    last_updated TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+===========
+User_Stocks Table (Junction Table):
+CREATE TABLE user_stocks (
+    user_id INTEGER REFERENCES users(user_id),
+    stock_id INTEGER REFERENCES stocks(stock_id),
+    PRIMARY KEY (user_id, stock_id)
+);
+ or
+CREATE TABLE user_stocks (
+    subscription_id SERIAL PRIMARY KEY,
+    user_id INTEGER REFERENCES users(user_id),
+    stock_id INTEGER REFERENCES stocks(stock_id),
+    subscription_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    subscription_preferences JSONB
+);
+
+| subscription_id | user_id | stock_id | subscription_date      | subscription_preferences   |
+|-----------------|---------|----------|------------------------|----------------------------|
+| 1               | 1       | 1        | 2024-02-17 10:00:00    | {"notification": "email"}  |
+| 2               | 1       | 2        | 2024-02-17 10:15:00    | {"notification": "sms"}    |
+| 3               | 2       | 1        | 2024-02-17 10:30:00    | {"notification": "push"}   |
+

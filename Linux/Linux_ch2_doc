@@ -1,0 +1,36 @@
+--> a privileged process is one whose effective user ID is 0
+(superuser). Such a process bypasses the permission restrictions normally applied
+by the kernel. By contrast, the term unprivileged (or nonprivileged) is applied to processes run by other users. Such processes have a nonzero effective user ID and
+must abide by the permission rules enforced by the kernel.
+
+--> Init Process: When booting the system, the kernel creates a special process called init, the “parent
+of all processes,” which is derived from the program file /sbin/init. All processes
+on the system are created (using fork()) either by init or by one of its descendants.
+The init process always has the process ID 1 and runs with superuser privileges
+
+--> Daemon processes:
+    It is long-lived. A daemon process is often started at system boot and remains
+    in existence until the system is shut down.
+
+    It runs in the background, and has no controlling terminal from which it can
+    read input or to which it can write output
+
+--> Environment list:
+    Each process has an environment list, which is a set of environment variables that are
+    maintained within the user-space memory of the process
+
+--> init:
+    init, the “parent of all processes,” which is derived from the program file /sbin/init. All processes
+    on the system are created (using fork()) either by init or by one of its descendants
+
+    The main task of init is to create and monitor a range of
+    processes required by a running system.
+
+--> Each process consumes resources, such as open files, memory, and CPU time.
+    Using the 'setrlimit()' system call, a process can establish upper limits on its consumption of various resources.
+
+    The resource limits of the shell can be adjusted using the 'ulimit' command
+
+--> The 'mmap()' system call creates a new memory mapping in the calling process’s virtual address space.
+    The 'mmap' module can be used to improve the performance of applications that need to access large files.
+    By mapping a file into memory, applications can avoid the overhead of reading the file from disk each time they need to access it.
