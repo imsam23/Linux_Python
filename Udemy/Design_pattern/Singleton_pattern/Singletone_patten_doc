@@ -1,0 +1,10 @@
+Purpose:
+
+Ensures only one instance of a class exists throughout the program's lifetime.
+Provides a global point of access to that single instance.
+Common Use Cases:
+
+Managing shared resources (e.g., database connections, hardware devices)
+Logging systems
+Configuration settings
+Global state management

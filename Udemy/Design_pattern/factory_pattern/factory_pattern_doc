@@ -1,0 +1,12 @@
+The factory pattern is a creational design pattern that defines an interface for creating an object,
+but lets subclasses decide which class to instantiate.
+
+This pattern is useful when you have a superclass with multiple subclasses and you want to decouple the creation of objects
+ from the client code.The factory pattern is often used to implement dependency injection, which is a technique
+ for decoupling the creation of objects from the code that depends on them.
+There are two main types of factory patterns in Python:
+    Factory method: The factory method pattern defines an abstract method for creating an object, but lets subclasses decide which concrete class to instantiate. This is the most common type of factory pattern.
+    Abstract factory: The abstract factory pattern defines an interface for creating families of related objects without specifying their concrete classes. This is less common than the factory method pattern, but it can be useful for creating complex object hierarchies.
+
+
+

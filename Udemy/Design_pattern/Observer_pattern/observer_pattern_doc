@@ -1,0 +1,12 @@
+Purpose:
+
+Establishes a one-to-many dependency between objects, where one object (the Subject) notifies multiple other objects (the Observers) about changes in its state.
+Decouples the Subject from the Observers, promoting loose coupling and flexibility.
+Key Components:
+
+Subject:
+Maintains a list of Observers.
+Provides methods for Observers to attach and detach themselves.
+Notifies Observers when its state changes.
+Observer:
+Defines an update() method that the Subject calls when notifying changes.

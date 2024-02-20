@@ -1,0 +1,12 @@
+Gamma Categorization:
+  Creational Pattern:
+   - Deal with creation of Objects
+  Structural Pattern:
+   - Concerned with the Structure(e.g., class members)
+  Behaviural Pattern:
+
+
+Builder Pattern:
+ - Piecewise construction of Objects
+ - Builder provides an API for constructing an Object step by step
+ - The Builder pattern is a powerful tool for creating complex objects with many possible configuration options
